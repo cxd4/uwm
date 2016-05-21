@@ -1,5 +1,4 @@
 /* $XConsortium: uwm.c,v 1.23 88/11/16 09:41:32 jim Exp $ */
-#include <X11/copyright.h>
 
 /*
  * Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
@@ -24,6 +23,23 @@
  * SOFTWARE.
  */
 
+/* $XConsortium: copyright.h,v 1.5 89/12/22 16:11:28 rws Exp $ */
+/*
+
+Copyright 1985, 1986, 1987, 1988, 1989 by the
+Massachusetts Institute of Technology
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation, and that the name of M.I.T. not be used in advertising or
+publicity pertaining to distribution of the software without specific,
+written prior permission.  M.I.T. makes no representations about the
+suitability of this software for any purpose.  It is provided "as is"
+without express or implied warranty.
+
+*/
 
 /*
  * MODIFICATION HISTORY
@@ -41,6 +57,7 @@ char *ProgramName;
 
 #include "uwm.h"
 #include <ctype.h>
+#include <stdlib.h> /* 2016.05.21 cxd4 -- malloc(), free(), exit() */
 #include <X11/Xproto.h>
 
 #ifdef PROFIL
@@ -102,9 +119,10 @@ char **environ;
     XWindowAttributes event_info;	/* Event window info. */
     XEvent button_event; 	 /* Button input event. */
     GC gc;			/* graphics context for gray background */
+    GC default_GC;              /* 2016.05.21 cxd4 */
+    XID font_ID;                /* 2016.05.21 cxd4 */
     XImage grayimage;		/* for gray background */
     XGCValues xgc;		/* to create font GCs */
-    char *malloc();
     Bool fallbackMFont = False,	/* using default GC font for menus, */
          fallbackPFont = False,	/* popups, */
          fallbackIFont = False;	/* icons */
@@ -373,11 +391,23 @@ char **environ;
      * Retrieve the information structure for the specifed fonts and
      * set the global font information pointers.
      */
+    default_GC = DefaultGC(dpy, scr);
+#if 0
+    font_ID = (default_GC -> gid);
+#else
+    font_ID = 0;
+    fprintf(
+        stderr,
+        "Modern X11 build of uwm needs to invoke XQueryFont differently.\n"\
+        "DefaultGC(%p, %p) = %p\n", dpy, scr, default_GC
+    );
+#endif
+
     IFontInfo = XLoadQueryFont(dpy, IFontName);
     if (IFontInfo == NULL) {
         fprintf(stderr, "uwm: Unable to open icon font '%s', using server default.\n",
                 IFontName);
-	IFontInfo = XQueryFont(dpy, DefaultGC(dpy, scr)->gid);
+	IFontInfo = XQueryFont(dpy, font_ID);
 	fallbackIFont = True;
     }
     PFontInfo = XLoadQueryFont(dpy, PFontName);
@@ -387,7 +417,7 @@ char **environ;
 	if (fallbackIFont)
 	    PFontInfo = IFontInfo;
 	else
-	    PFontInfo = XQueryFont(dpy, DefaultGC(dpy, scr)->gid);
+	    PFontInfo = XQueryFont(dpy, font_ID);
 	fallbackPFont = True;
     }
     MFontInfo = XLoadQueryFont(dpy, MFontName);
@@ -397,7 +427,7 @@ char **environ;
 	if (fallbackIFont || fallbackPFont)
 	    MFontInfo = fallbackPFont ? PFontInfo : IFontInfo;
 	else
-	    MFontInfo = XQueryFont(dpy, DefaultGC(dpy, scr)->gid);
+	    MFontInfo = XQueryFont(dpy, font_ID);
 	fallbackMFont = True;
     }
 

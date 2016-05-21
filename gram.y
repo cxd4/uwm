@@ -38,8 +38,37 @@
 static char *sccsid = "@(#)gram.y	3.8	1/24/86";
 #endif
 
-#include <X11/copyright.h>
+/* $XConsortium: copyright.h,v 1.5 89/12/22 16:11:28 rws Exp $ */
+/*
+
+Copyright 1985, 1986, 1987, 1988, 1989 by the
+Massachusetts Institute of Technology
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation, and that the name of M.I.T. not be used in advertising or
+publicity pertaining to distribution of the software without specific,
+written prior permission.  M.I.T. makes no representations about the
+suitability of this software for any purpose.  It is provided "as is"
+without express or implied warranty.
+
+*/
+
+/* 2016.05.21 cxd4 -- fixes warning:  "implicit declaration of `exit`" */
+#include <stdlib.h>
+
 #include "uwm.h"
+
+/* 2016.05.21 cxd4 -- prototype declarations:  fixes mismatch errors */
+extern char* strconcat(char* s1, char* s2);
+extern MenuLine* AllocMenuLine(void);
+extern MenuLine* StashMenuLine(int type, char* string);
+extern MenuInfo* stashmenuinfo(char* name, MenuLine* line, char* colors[]);
+extern MenuLink* stashmenulink(MenuInfo* menuinfo);
+extern MenuLine* appendmenuline(MenuLine* list, MenuLine* line);
+extern MenuLink* appendmenulink(MenuLink* list, MenuLink* link);
 
 /*
  * Values returned by complex expression parser.
@@ -59,8 +88,6 @@ static MenuLine *ml_ptr;		/* Temporary menu line pointer. */
 static char *hcolors[4];		/* Color values used in menu hdrs. */
 static char *mcolors[2];		/* Color values used in menus. */
 MenuLink *menu_link;			/* Temporary menu link pointer. */
-
-char *calloc();
 
 %}
 
@@ -500,7 +527,6 @@ char *
 strconcat(s1, s2)
 char *s1, *s2;
 {
-    char *malloc();
     char *p;
 
     p = malloc(strlen(s1) + strlen(s2) + 2);

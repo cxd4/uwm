@@ -1,5 +1,4 @@
 /* $XConsortium: Icons.c,v 1.13 89/04/22 12:11:20 rws Exp $ */
-#include <X11/copyright.h>
 
 /*
  * Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
@@ -24,7 +23,23 @@
  * SOFTWARE.
  */
 
+/* $XConsortium: copyright.h,v 1.5 89/12/22 16:11:28 rws Exp $ */
+/*
 
+Copyright 1985, 1986, 1987, 1988, 1989 by the
+Massachusetts Institute of Technology
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation, and that the name of M.I.T. not be used in advertising or
+publicity pertaining to distribution of the software without specific,
+written prior permission.  M.I.T. makes no representations about the
+suitability of this software for any purpose.  It is provided "as is"
+without express or implied warranty.
+
+*/
  
 /*
  * MODIFICATION HISTORY
@@ -35,6 +50,9 @@
 #ifndef lint
 static char *sccsid = "%W%	%G%";
 #endif
+
+/* 2016.05.21 cxd4 -- need ANSI <stdlib.h> for free(), ... */
+#include <stdlib.h>
  
 #include "uwm.h"
 #include <X11/Xatom.h>
@@ -181,6 +199,7 @@ Bool mousePositioned;
     int icon_bdr;			/* Icon border width. */
     int mask;				/* Icon event mask */
     int depth;				/* for XGetGeometry */
+    int dummy_event, dummy_error;	/* See XShapeQueryExtension() call. */
     XSetWindowAttributes iconValues;	/* for icon window creation */
     XWMHints *wmhints;			/* see if icon position provided */
     XWMHints *XGetWMHints();
@@ -266,10 +285,17 @@ Bool mousePositioned;
                 icon_bdr, 0, CopyFromParent, CopyFromParent,
 		CWBorderPixel+CWBackPixmap, &iconValues);
 
+/* 2016.05.21 cxd4 -- XShapeQueryExtension requires 2 more args in newer X11. */
 #ifdef SHAPE
-   if ((iconValues.background_pixmap != IBackground) &&
-       (wmhints->flags&IconMaskHint) &&
-       XShapeQueryExtension(dpy)) {
+    if (
+        iconValues.background_pixmap != IBackground
+     && (wmhints->flags & IconMaskHint)
+#if 0
+     && XShapeQueryExtension(dpy)
+#else
+     && XShapeQueryExtension(dpy, &dummy_event, &dummy_error)
+#endif
+    ) {
 	XSetWindowBorderWidth(dpy, icon, 0);
 	XShapeCombineMask(dpy, icon, ShapeBounding, 0, 0, wmhints->icon_mask,
 			  ShapeSet);

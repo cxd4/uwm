@@ -2,8 +2,6 @@
 static char *rcsid_GetButton_c = "$XConsortium: GetButton.c,v 1.38 88/10/23 12:08:12 jim Exp $";
 #endif	lint
 
-#include <X11/copyright.h>
-
 /*
  * Copyright 1987 by Digital Equipment Corporation, Maynard, Massachusetts.
  *
@@ -27,7 +25,23 @@ static char *rcsid_GetButton_c = "$XConsortium: GetButton.c,v 1.38 88/10/23 12:0
  * SOFTWARE.
  */
 
+/* $XConsortium: copyright.h,v 1.5 89/12/22 16:11:28 rws Exp $ */
+/*
 
+Copyright 1985, 1986, 1987, 1988, 1989 by the
+Massachusetts Institute of Technology
+
+Permission to use, copy, modify, distribute, and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice appear in all copies and that both that
+copyright notice and this permission notice appear in supporting
+documentation, and that the name of M.I.T. not be used in advertising or
+publicity pertaining to distribution of the software without specific,
+written prior permission.  M.I.T. makes no representations about the
+suitability of this software for any purpose.  It is provided "as is"
+without express or implied warranty.
+
+*/
 
 /*
  * MODIFICATION HISTORY
@@ -53,6 +67,9 @@ static char *sccsid = "@(#)GetButton.c	3.8	1/24/86";
  *
  *	File:		GetButton.c
  */
+
+/* 2016.05.21 cxd4 -- need ANSI <stdlib.h> for free, realloc, ... */
+#include <stdlib.h>
 
 #include "uwm.h"
 #include <X11/Xatom.h>
@@ -255,7 +272,12 @@ Bool GetButton(button_event)
     /* 
      * We convert the key pressed event to ascii.
      */
+#if 0
     nbytes = XLookupString(kp_event, kbd_str, STRLEN, NULL);
+#else
+ /* 2016.05.21 cxd4 -- The former is historic to early X11 revisions. */
+    nbytes = XLookupString(kp_event, kbd_str, STRLEN, NULL, NULL);
+#endif
 
     /*
      * If kbd_str is a "non-string", then don't do anything.
