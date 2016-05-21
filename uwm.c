@@ -57,6 +57,7 @@ char *ProgramName;
 
 #include "uwm.h"
 #include <ctype.h>
+#include <stdlib.h> /* 2016.05.21 cxd4 -- malloc(), free(), exit() */
 #include <X11/Xproto.h>
 
 #ifdef PROFIL
@@ -120,7 +121,6 @@ char **environ;
     GC gc;			/* graphics context for gray background */
     XImage grayimage;		/* for gray background */
     XGCValues xgc;		/* to create font GCs */
-    char *malloc();
     Bool fallbackMFont = False,	/* using default GC font for menus, */
          fallbackPFont = False,	/* popups, */
          fallbackIFont = False;	/* icons */

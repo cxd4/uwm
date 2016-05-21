@@ -51,6 +51,7 @@ without express or implied warranty.
 static char *sccsid = "%W%	%G%";
 #endif
 
+#include <stdlib.h>
 #include "uwm.h"
 
 Bool Restart(window, mask, button, x, y)
