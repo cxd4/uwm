@@ -61,6 +61,15 @@ without express or implied warranty.
 
 #include "uwm.h"
 
+/* 2016.05.21 cxd4 -- prototype declarations:  fixes mismatch errors */
+extern char* strconcat(char* s1, char* s2);
+extern MenuLine* AllocMenuLine(void);
+extern MenuLine* StashMenuLine(int type, char* string);
+extern MenuInfo* stashmenuinfo(char* name, MenuLine* line, char* colors[]);
+extern MenuLink* stashmenulink(MenuInfo* menuinfo);
+extern MenuLine* appendmenuline(MenuLine* list, MenuLine* line);
+extern MenuLink* appendmenulink(MenuLink* list, MenuLink* link);
+
 /*
  * Values returned by complex expression parser.
  */
