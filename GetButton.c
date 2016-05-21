@@ -68,6 +68,9 @@ static char *sccsid = "@(#)GetButton.c	3.8	1/24/86";
  *	File:		GetButton.c
  */
 
+/* 2016.05.21 cxd4 -- need ANSI <stdlib.h> for free, realloc, ... */
+#include <stdlib.h>
+
 #include "uwm.h"
 #include <X11/Xatom.h>
 
