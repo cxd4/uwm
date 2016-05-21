@@ -272,7 +272,12 @@ Bool GetButton(button_event)
     /* 
      * We convert the key pressed event to ascii.
      */
+#if 0
     nbytes = XLookupString(kp_event, kbd_str, STRLEN, NULL);
+#else
+ /* 2016.05.21 cxd4 -- The former is historic to early X11 revisions. */
+    nbytes = XLookupString(kp_event, kbd_str, STRLEN, NULL, NULL);
+#endif
 
     /*
      * If kbd_str is a "non-string", then don't do anything.
