@@ -50,6 +50,9 @@ without express or implied warranty.
 #ifndef lint
 static char *sccsid = "%W%	%G%";
 #endif
+
+/* 2016.05.21 cxd4 -- need ANSI <stdlib.h> for free(), ... */
+#include <stdlib.h>
  
 #include "uwm.h"
 #include <X11/Xatom.h>
