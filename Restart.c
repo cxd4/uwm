@@ -67,11 +67,16 @@ int x, y;                               /* Event mouse position. */
     XBell(dpy, percentage);
     XBell(dpy, percentage);
     XSync (dpy, 0);
+
     /*
      * Gag, rely on operating system to close connection because we don't
      * to mess ourselves up in case the exec fails.
      */
+#if 0
     execvp(*Argv, Argv, Environ);
+#else
+    execvp(*Argv, Argv);
+#endif
     for (i = 0; i < 4; i++) {
 	XBell(dpy, percentage);
 	percentage += 10;
