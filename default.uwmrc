@@ -1,0 +1,86 @@
+# $Author $
+# $XConsortium $
+# Copyright (c) 1987 by the Massachusetts Institute of Technology.
+#
+# This is a startup file for uwm that produces an xwm lookalike,
+# but adds two useful menus.  It is patterned on the public
+# distribution ../lib/X/uwm/jg.uwmrc file by Jim Gettys.
+#
+resetbindings
+resetvariables
+resetmenus
+noautoselect
+delta=5
+freeze
+grid
+zap
+pushabsolute
+push=1
+hiconpad=5
+viconpad=5
+hmenupad=3
+vmenupad=0
+iconfont=fixed
+menufont=fixed
+resizefont=fixed
+volume=0
+
+# FUNCTION	KEYS	CONTEXT		MOUSE BUTTON ACTIONS
+f.newiconify=	meta	:window|icon:	delta left
+f.raise=	meta	:window|icon:	delta left
+f.lower=	meta	:window|icon:	left up
+f.raise=	meta	:window:	middle down
+f.resize=	meta	:window:	delta middle
+f.iconify=	meta	:icon:		middle up
+f.raise=	meta	:window|icon:	right down
+f.move=		meta	:window|icon:	delta right
+f.circledown=	meta	:root:		left down
+f.circleup=	meta	:root:		right down
+f.circledown=	m|s	::		left down
+f.menu=			:root:		middle down	: "WindowOps"
+f.menu=		m|s	::		middle down	: "WindowOps"
+f.menu=		m|s	::		middle down	: "Preferences"
+f.circleup=	m|s	::		right down
+f.iconify=	m|c	:window|icon:	left down
+f.newiconify=	m|l	:window|icon:	left down
+f.raise=	m|l	:window|icon:	left up
+f.pushright=	m|l	:window|icon:	right down
+f.pushleft=	m|c	:window|icon:	right down
+f.pushup=	m|l	:window|icon:	middle down
+f.pushdown=	m|c	:window|icon:	middle down
+
+menu = "WindowOps" {
+New Window:	!"xterm&"
+RefreshScreen:	f.refresh
+Redraw:		f.redraw
+Move:		f.move
+Resize:		f.resize
+Lower:		f.lower
+Raise:		f.raise
+CircUp:		f.circleup
+CircDown:	f.circledown
+AutoIconify:	f.iconify
+LowerIconify:	f.newiconify
+NewIconify:	f.newiconify
+Focus:		f.focus
+Freeze:		f.pause
+UnFreeze:	f.continue
+Restart:	f.restart
+" ":		f.beep
+KillWindow:	f.kill
+" ":		f.beep
+Exit:		f.exit
+}
+menu = "Preferences" {
+Bell Loud:	!"xset b 7&"
+Bell Normal:	!"xset b 3&"
+Bell Off:	!"xset b off&"
+Click Loud:	!"xset c 8&"
+Click Soft:	!"xset c on&"
+Click Off:	!"xset c off&"
+Lock On:	!"xset l on&"
+Lock Off:	!"xset l off&"
+Mouse Fast:	!"xset m 4 2&"
+Mouse Normal:	!"xset m 2 5&"
+Mouse Slow:	!"xset m 1 1&"
+}

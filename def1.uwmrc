@@ -1,0 +1,71 @@
+#
+# this is /usr/athena10/lib/X/uwm/system.uwmrc
+#
+resetbindings
+resetvariables
+resetmenus
+
+autoselect
+delta=10
+freeze
+nogrid
+normali
+normalw
+pushabsolute
+push=1
+volume=0
+nozap
+
+hiconpad=2
+viconpad=2
+hmenupad=3
+vmenupad=0
+
+iconfont=fixed
+menufont=fixed
+resizefont=fixed
+
+# FUNCTION	KEYS	CONTEXT		MOUSE BUTTON ACTIONS
+f.lower=	meta	:window|icon:	left up
+f.move=		meta	:window|icon:	left delta
+f.circledown=	meta	:root:		left down
+
+f.menu=		meta	::		middle down	: "WOps"
+f.menu=		m|s	::		middle down	: "Preferences"
+
+f.newiconify=	meta	:window|icon:	right delta
+f.iconify=	meta	:window|icon:	right up
+f.circleup=	meta	:root:		right down
+
+menu = "WOps" (Aquamarine:Black:White:Orange) {
+Move:		f.move
+Resize:		f.resize
+Lower:		f.lower
+Raise:		f.raise
+CircUp:		f.circleup
+CircDown:	f.circledown
+Iconify:	f.iconify
+NewIconify:	f.newiconify
+Focus:		f.focus
+Freeze:		f.pause
+UnFreeze:	f.continue
+Refresh:	f.refresh
+Left:		f.pushleft
+Right:		f.pushright
+Up:		f.pushup
+Down:		f.pushdown
+}
+
+menu = "Preferences" (Aquamarine:Black:White:Orange) {
+Bell Loud:!"xset b 7&"
+Bell Normal:!"xset b 3&"
+Bell Off:!"xset b off&"
+Click Loud:!"xset c 8&"
+Click Soft:!"xset c on&"
+Click Off:!"xset c off&"
+Lock On:!"xset c on&"
+Lock Off:!"xset c off&"
+Mouse Fast:!"xset m 4 2&"
+Mouse Normal:!"xset m 2 5&"
+Mouse Slow:!"xset m 1 1&"
+}

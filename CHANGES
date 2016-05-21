@@ -1,0 +1,16 @@
+The following changes have been made to this directory since R2:
+
+     o  rubberbanding now defines the outer edge of the window, including
+	borders; the sizing box properly lists the inner edge.
+     o  top-level windows have their colormap installed whenever they have
+	the focus.
+     o  a new f.kill function has been added to make nuking windows easier.
+     o  colors and border widths may now be specified for various things.
+     o  relative resizing, ala X10, is now available as an option.
+     o  when pointing to something, the hand2 cursor is used.
+     o  when editting an icon, the arrow cursor is used.
+     o  memory leak of not freeing wmhints fixed.
+     o  problems with multiple menus have been fixed.
+     o  menus no longer warp cursors around rudely.
+     o  deals with resources for all boolean, numeric, and string parameters.
+     o	no longer modifies an application's WM_SIZE_HINTS.

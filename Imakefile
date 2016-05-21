@@ -1,0 +1,27 @@
+        DEFINES = -DSYSFILE=\"$(UWMDIR)$(PATHSEP)system.uwmrc\" -DSHAPE
+LOCAL_LIBRARIES = $(EXTENSIONLIB) $(XLIB)
+  SYS_LIBRARIES = -ll
+      OTHERSRCS = gram.y lex.l
+         YFLAGS = -d
+
+SRCS=	globals.c Beep.c Bindings.c CircleDown.c CircleUp.c\
+	Cursors.c Focus.c GetButton.c  GridBox.c Iconify.c Icons.c Kill.c \
+	Lower.c\
+	Menu.c Move.c MoveOpaque.c NewIconify.c Pause.c Push.c Error.c\
+	Raise.c Refresh.c Resize.c Restart.c RubberBand.c StoreBox.c \
+	StoreZap.c XError.c uwm.c colormap.c windowinfo.c
+
+OBJS=	gram.o lex.o globals.o Beep.o Bindings.o CircleDown.o CircleUp.o\
+	Cursors.o Focus.o GetButton.o GridBox.o Iconify.o Icons.o Kill.o \
+	Lower.o\
+	Menu.o Move.o MoveOpaque.o NewIconify.o Pause.o Push.o Error.o\
+	Raise.o Refresh.o Resize.o Restart.o RubberBand.o StoreBox.o \
+	StoreZap.o XError.o uwm.o colormap.o windowinfo.o
+
+ComplexProgramTarget(uwm)
+
+clean::
+	$(RM) y.tab.h y.tab.c lex.yy.c
+
+gram.o: uwm.h
+
