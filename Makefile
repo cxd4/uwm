@@ -57,7 +57,8 @@
   STD_CPP_DEFINES = -DSUNSYSV -DSYSV -DUSE_USG_PTYS -DSOLARIS
       STD_DEFINES = -DSUNSYSV -DSYSV -DUSE_USG_PTYS -DSOLARIS
  EXTRA_LOAD_FLAGS =
-  EXTRA_LIBRARIES = -lsocket /usr/athena/lib/libresolv.a -lnsl -lc /usr/ucblib/libucb.a -lelf -ldl
+# EXTRA_LIBRARIES = -lsocket /usr/athena/lib/libresolv.a -lnsl -lc /usr/ucblib/libucb.a -lelf -ldl
+  EXTRA_LIBRARIES = -lnsl -lc -ldl
              TAGS = ctags
 
            MFLAGS = -$(MAKEFLAGS)
@@ -204,7 +205,8 @@
         LINTXTOOL = $(LINTLIBDIR)/llib-lXt.ln
           LINTXAW = $(LINTLIBDIR)/llib-lXaw.ln
 
-          DEPLIBS = $(DEPXAWLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+#         DEPLIBS = $(DEPXAWLIB) $(DEPXMULIB) $(DEPXTOOLLIB) $(DEPXLIB)
+          DEPLIBS = # 2016.05.24 cxd4 -- tm;df
 
          DEPLIBS1 = $(DEPLIBS)
          DEPLIBS2 = $(DEPLIBS)
@@ -219,7 +221,8 @@
 
         DEFINES = -DSYSFILE=\"$(UWMDIR)$(PATHSEP)system.uwmrc\" -DSHAPE
 LOCAL_LIBRARIES = $(EXTENSIONLIB) $(XLIB)
-  SYS_LIBRARIES = -ll
+# SYS_LIBRARIES = -ll
+  SYS_LIBRARIES = -lfl
       OTHERSRCS = gram.y lex.l
          YFLAGS = -d
 
