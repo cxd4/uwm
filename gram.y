@@ -77,8 +77,6 @@ static char *hcolors[4];		/* Color values used in menu hdrs. */
 static char *mcolors[2];		/* Color values used in menus. */
 MenuLink *menu_link;			/* Temporary menu link pointer. */
 
-char *calloc();
-
 %}
 
 %union {
@@ -517,7 +515,6 @@ char *
 strconcat(s1, s2)
 char *s1, *s2;
 {
-    char *malloc();
     char *p;
 
     p = malloc(strlen(s1) + strlen(s2) + 2);
