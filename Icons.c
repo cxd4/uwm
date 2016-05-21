@@ -199,6 +199,7 @@ Bool mousePositioned;
     int icon_bdr;			/* Icon border width. */
     int mask;				/* Icon event mask */
     int depth;				/* for XGetGeometry */
+    int dummy_event, dummy_error;	/* See XShapeQueryExtension() call. */
     XSetWindowAttributes iconValues;	/* for icon window creation */
     XWMHints *wmhints;			/* see if icon position provided */
     XWMHints *XGetWMHints();
@@ -284,10 +285,17 @@ Bool mousePositioned;
                 icon_bdr, 0, CopyFromParent, CopyFromParent,
 		CWBorderPixel+CWBackPixmap, &iconValues);
 
+/* 2016.05.21 cxd4 -- XShapeQueryExtension requires 2 more args in newer X11. */
 #ifdef SHAPE
-   if ((iconValues.background_pixmap != IBackground) &&
-       (wmhints->flags&IconMaskHint) &&
-       XShapeQueryExtension(dpy)) {
+    if (
+        iconValues.background_pixmap != IBackground
+     && (wmhints->flags & IconMaskHint)
+#if 0
+     && XShapeQueryExtension(dpy)
+#else
+     && XShapeQueryExtension(dpy, &dummy_event, &dummy_error)
+#endif
+    ) {
 	XSetWindowBorderWidth(dpy, icon, 0);
 	XShapeCombineMask(dpy, icon, ShapeBounding, 0, 0, wmhints->icon_mask,
 			  ShapeSet);
