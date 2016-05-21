@@ -119,6 +119,8 @@ char **environ;
     XWindowAttributes event_info;	/* Event window info. */
     XEvent button_event; 	 /* Button input event. */
     GC gc;			/* graphics context for gray background */
+    GC default_GC;              /* 2016.05.21 cxd4 */
+    XID font_ID;                /* 2016.05.21 cxd4 */
     XImage grayimage;		/* for gray background */
     XGCValues xgc;		/* to create font GCs */
     Bool fallbackMFont = False,	/* using default GC font for menus, */
@@ -389,11 +391,23 @@ char **environ;
      * Retrieve the information structure for the specifed fonts and
      * set the global font information pointers.
      */
+    default_GC = DefaultGC(dpy, scr);
+#if 0
+    font_ID = (default_GC -> gid);
+#else
+    font_ID = 0;
+    fprintf(
+        stderr,
+        "Modern X11 build of uwm needs to invoke XQueryFont differently.\n"\
+        "DefaultGC(%p, %p) = %p\n", dpy, scr, default_GC
+    );
+#endif
+
     IFontInfo = XLoadQueryFont(dpy, IFontName);
     if (IFontInfo == NULL) {
         fprintf(stderr, "uwm: Unable to open icon font '%s', using server default.\n",
                 IFontName);
-	IFontInfo = XQueryFont(dpy, DefaultGC(dpy, scr)->gid);
+	IFontInfo = XQueryFont(dpy, font_ID);
 	fallbackIFont = True;
     }
     PFontInfo = XLoadQueryFont(dpy, PFontName);
@@ -403,7 +417,7 @@ char **environ;
 	if (fallbackIFont)
 	    PFontInfo = IFontInfo;
 	else
-	    PFontInfo = XQueryFont(dpy, DefaultGC(dpy, scr)->gid);
+	    PFontInfo = XQueryFont(dpy, font_ID);
 	fallbackPFont = True;
     }
     MFontInfo = XLoadQueryFont(dpy, MFontName);
@@ -413,7 +427,7 @@ char **environ;
 	if (fallbackIFont || fallbackPFont)
 	    MFontInfo = fallbackPFont ? PFontInfo : IFontInfo;
 	else
-	    MFontInfo = XQueryFont(dpy, DefaultGC(dpy, scr)->gid);
+	    MFontInfo = XQueryFont(dpy, font_ID);
 	fallbackMFont = True;
     }
 
