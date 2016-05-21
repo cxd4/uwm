@@ -61,6 +61,7 @@ without express or implied warranty.
 static char *sccsid = "@(#)Menu.c	3.8	1/24/86";
 #endif
 
+#include <stdlib.h>
 #include <signal.h>
 #include "uwm.h"
 
@@ -143,7 +144,6 @@ MenuInfo *menu;
     char *hlname;			/* Pointer to hi-liter name. */
     char *strbuf;			/* String buffer for IsTextNL. */
     Bool checkMotion = TRUE;		/* To Restore Cursor Position */
-    char *malloc();
     int funcbutton;			/* function button for window select */
 
     /*
