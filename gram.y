@@ -56,6 +56,9 @@ without express or implied warranty.
 
 */
 
+/* 2016.05.21 cxd4 -- fixes warning:  "implicit declaration of `exit`" */
+#include <stdlib.h>
+
 #include "uwm.h"
 
 /*
